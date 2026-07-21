@@ -62,7 +62,7 @@ Not a security product. Convenience tool with reasonable hygiene. Read the code 
 ## Roadmap
 
 - **Phase 0** — verify Agent Access on Windows end-to-end (see [`docs/phase-0.md`](docs/phase-0.md))
-- **Phase 1** — Telegram approval bot with inline buttons and timeout
+- **Phase 1** ✅ — Telegram approval bot with inline buttons and timeout (see [`docs/phase-1.md`](docs/phase-1.md))
 - **Phase 2** — `aac connect` wrapper + focus check + keystroke fill
 - **Phase 3** — global hotkey, tray app, audit log, config
 - **Phase 4** — whitelist tier, TOTP fill, multiple-match handling
