@@ -112,3 +112,49 @@ def fill_if_focused(
             f"Chrome is not focused on {domain!r}; refusing to type the credential."
         )
     fill(credential, submit=submit, keystroke_delay_ms=keystroke_delay_ms)
+
+
+def fill_totp(
+    totp: str,
+    submit: bool = True,
+    *,
+    keystroke_delay_ms: int = 15,
+    controller=None,
+    enter_key=None,
+) -> None:
+    """Type a TOTP code into the focused 2FA field (Enter after, by default)."""
+    if not totp:
+        raise FillError("no TOTP code to type.")
+    if controller is None:
+        from pynput.keyboard import Controller, Key
+
+        controller = Controller()
+        enter_key = Key.enter
+
+    delay = max(0.0, keystroke_delay_ms / 1000.0)
+    code = totp
+    try:
+        for ch in code:
+            controller.type(ch)
+            if delay:
+                time.sleep(delay)
+        if submit:
+            controller.tap(enter_key)
+    finally:
+        del code
+
+
+def fill_totp_if_focused(
+    domain: str,
+    totp: str,
+    *,
+    submit: bool = True,
+    keystroke_delay_ms: int = 15,
+    title: str | None = None,
+) -> None:
+    """Focus-check ``domain`` then type the TOTP; raise :class:`FillError` if not."""
+    if not is_target_focused(domain, title=title):
+        raise FillError(
+            f"Chrome is not focused on {domain!r}; refusing to type the TOTP."
+        )
+    fill_totp(totp, submit=submit, keystroke_delay_ms=keystroke_delay_ms)

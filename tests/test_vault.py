@@ -7,7 +7,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from src.vault import Credential, VaultError, fetch
+from src.vault import Credential, MultipleMatchesError, VaultError, fetch, fetch_all
 
 
 def _runner(returncode=0, stdout="", stderr=""):
@@ -70,3 +70,44 @@ def test_timeout_raises():
 
     with pytest.raises(VaultError, match="timed out"):
         fetch("example.com", runner=run)
+
+
+# --- Phase 4: multiple-match handling ---
+
+_TWO = '[{"username": "a@x.com", "password": "p1"}, {"username": "b@x.com", "password": "p2"}]'
+
+
+def test_multiple_matches_without_username_raises():
+    run = _runner(stdout=_TWO)
+    with pytest.raises(MultipleMatchesError) as exc:
+        fetch("x.com", runner=run)
+    assert exc.value.usernames == ["a@x.com", "b@x.com"]
+
+
+def test_username_disambiguates_multiple_matches():
+    run = _runner(stdout=_TWO)
+    cred = fetch("x.com", username="b@x.com", runner=run)
+    assert cred == Credential("b@x.com", "p2")
+
+
+def test_unknown_username_raises():
+    run = _runner(stdout=_TWO)
+    with pytest.raises(VaultError, match="no login with username"):
+        fetch("x.com", username="nope@x.com", runner=run)
+
+
+def test_list_wrapped_in_object_key():
+    run = _runner(stdout='{"matches": [{"username": "only", "password": "p"}]}')
+    assert fetch("x.com", runner=run) == Credential("only", "p")
+
+
+def test_fetch_all_returns_every_match():
+    run = _runner(stdout=_TWO)
+    creds = fetch_all("x.com", runner=run)
+    assert [c.username for c in creds] == ["a@x.com", "b@x.com"]
+
+
+def test_empty_list_raises():
+    run = _runner(stdout="[]")
+    with pytest.raises(VaultError, match="no logins"):
+        fetch("x.com", runner=run)

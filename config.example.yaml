@@ -18,6 +18,9 @@ vault:
   provider: bitwarden
   # lock the vault after this many minutes of no activity
   idle_lock_minutes: 15
+  # optional: pick a specific username when a domain has multiple logins
+  # accounts:
+  #   github.com: work@example.com
 
 fill:
   # keystroke delay in ms — raise if fields miss characters
@@ -28,6 +31,8 @@ fill:
 hotkey:
   # global hotkey combo (parsed by `keyboard` lib)
   combo: ctrl+alt+l
+  # hotkey to type a TOTP/2FA code on the second-factor page
+  totp_combo: ctrl+alt+t
 
 audit:
   # JSON-lines log path

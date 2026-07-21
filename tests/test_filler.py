@@ -4,7 +4,13 @@ from __future__ import annotations
 
 import pytest
 
-from src.filler import FillError, fill, fill_if_focused, is_target_focused
+from src.filler import (
+    FillError,
+    fill,
+    fill_if_focused,
+    fill_totp,
+    is_target_focused,
+)
 from src.vault import Credential
 
 TAB = object()
@@ -54,6 +60,23 @@ def test_fill_no_submit_has_no_enter():
 )
 def test_title_matching(domain, title, expected):
     assert is_target_focused(domain, title=title) is expected
+
+
+def test_fill_totp_types_code_and_enter():
+    kb = FakeController()
+    fill_totp("123456", submit=True, keystroke_delay_ms=0, controller=kb, enter_key=ENTER)
+    assert kb.events == ["1", "2", "3", "4", "5", "6", ENTER]
+
+
+def test_fill_totp_no_submit():
+    kb = FakeController()
+    fill_totp("999", submit=False, keystroke_delay_ms=0, controller=kb, enter_key=ENTER)
+    assert kb.events == ["9", "9", "9"]
+
+
+def test_fill_totp_empty_raises():
+    with pytest.raises(FillError):
+        fill_totp("", controller=FakeController(), enter_key=ENTER)
 
 
 def test_fill_if_focused_raises_when_not_focused(monkeypatch):
