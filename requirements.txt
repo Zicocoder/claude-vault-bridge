@@ -3,6 +3,7 @@ python-telegram-bot>=21.0
 pynput>=1.7.7
 pygetwindow>=0.0.9
 pystray>=0.19.5
+pillow>=10.0.0
 keyboard>=0.13.5
 pyyaml>=6.0.1
 keyring>=25.0.0
