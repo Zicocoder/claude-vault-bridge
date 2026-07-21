@@ -1,0 +1,26 @@
+# secrets — NEVER commit these
+config.yaml
+.env
+*.log
+audit/
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+
+# ide / os
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# aac binary (download per-platform from release)
+aac
+aac.exe

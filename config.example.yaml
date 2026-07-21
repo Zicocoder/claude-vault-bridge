@@ -1,0 +1,34 @@
+# Copy this file to config.yaml and edit. config.yaml is gitignored.
+# Secrets (Telegram token, Bitwarden master password) are NOT stored here —
+# they live in Windows Credential Manager and are read at runtime.
+
+telegram:
+  # chat_id you want approval prompts sent to
+  chat_id: 0
+
+approval:
+  # seconds before an unanswered prompt auto-denies
+  timeout_seconds: 60
+  # domains that skip the phone prompt entirely (still audit-logged)
+  whitelist:
+    - example.com
+
+vault:
+  # aac provider CLI to use — currently only "bitwarden"
+  provider: bitwarden
+  # lock the vault after this many minutes of no activity
+  idle_lock_minutes: 15
+
+fill:
+  # keystroke delay in ms — raise if fields miss characters
+  keystroke_delay_ms: 15
+  # press Enter after filling password
+  submit_on_fill: false
+
+hotkey:
+  # global hotkey combo (parsed by `keyboard` lib)
+  combo: ctrl+alt+l
+
+audit:
+  # JSON-lines log path
+  path: audit/events.jsonl
