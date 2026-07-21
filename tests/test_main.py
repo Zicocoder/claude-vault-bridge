@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from src import main
-from src.approval import ApprovalResult
-from src.filler import FillError
-from src.vault import Credential, MultipleMatchesError, VaultError
+from claude_vault_bridge import main
+from claude_vault_bridge.approval import ApprovalResult
+from claude_vault_bridge.filler import FillError
+from claude_vault_bridge.vault import Credential, MultipleMatchesError, VaultError
 
 
 @pytest.fixture

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src import audit
+from claude_vault_bridge import audit
 
 
 def test_log_writes_one_event(tmp_path):

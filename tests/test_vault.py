@@ -7,7 +7,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from src.vault import Credential, MultipleMatchesError, VaultError, fetch, fetch_all
+from claude_vault_bridge.vault import Credential, MultipleMatchesError, VaultError, fetch, fetch_all
 
 
 def _runner(returncode=0, stdout="", stderr=""):

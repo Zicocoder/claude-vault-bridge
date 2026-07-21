@@ -1,4 +1,5 @@
-# pinned in Phase 1 once we start importing them
+# Runtime dependencies. Canonical source is pyproject.toml ([project].dependencies);
+# this file mirrors it for `pip install -r requirements.txt` without the package.
 python-telegram-bot>=21.0
 pynput>=1.7.7
 pygetwindow>=0.0.9

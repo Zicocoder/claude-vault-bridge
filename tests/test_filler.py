@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import pytest
 
-from src.filler import (
+from claude_vault_bridge.filler import (
     FillError,
     fill,
     fill_if_focused,
     fill_totp,
     is_target_focused,
 )
-from src.vault import Credential
+from claude_vault_bridge.vault import Credential
 
 TAB = object()
 ENTER = object()
@@ -81,7 +81,7 @@ def test_fill_totp_empty_raises():
 
 def test_fill_if_focused_raises_when_not_focused(monkeypatch):
     called = {"filled": False}
-    monkeypatch.setattr("src.filler.fill", lambda *a, **k: called.__setitem__("filled", True))
+    monkeypatch.setattr("claude_vault_bridge.filler.fill", lambda *a, **k: called.__setitem__("filled", True))
     with pytest.raises(FillError):
         fill_if_focused("amazon.es", Credential("a", "b"), title="Bank - Google Chrome")
     assert called["filled"] is False

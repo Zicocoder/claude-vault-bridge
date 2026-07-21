@@ -2,10 +2,10 @@
 
 Goal: turn an approved request into a filled login form. Two pieces:
 
-- [`src/vault.py`](../src/vault.py) — `fetch(domain) -> Credential` runs
+- [`claude_vault_bridge/vault.py`](../claude_vault_bridge/vault.py) — `fetch(domain) -> Credential` runs
   `aac connect --domain <d> --output json`, parses the JSON, and returns a
   `Credential(username, password, totp)`. Nothing hits disk or the clipboard.
-- [`src/filler.py`](../src/filler.py) — `is_target_focused(domain)` confirms
+- [`claude_vault_bridge/filler.py`](../claude_vault_bridge/filler.py) — `is_target_focused(domain)` confirms
   Chrome is the foreground window **and** its title references the domain;
   `fill(credential)` types `username` + Tab + `password` via keystrokes;
   `fill_if_focused(domain, credential)` combines the two and refuses to type if
@@ -35,7 +35,7 @@ Phase 3 orchestrator will chain: approve → `fetch` → `fill_if_focused`.
 1. Complete `docs/phase-0.md` so `aac connect` returns a dummy credential.
 2. Dry-run the fetch (prints the parsed username only, never the password):
    ```powershell
-   .\.venv\Scripts\python.exe -c "from src.vault import fetch; print(fetch('example.com').username)"
+   .\.venv\Scripts\python.exe -c "from claude_vault_bridge.vault import fetch; print(fetch('example.com').username)"
    ```
 3. Open the site's login page in Chrome, click the username field, then run a
    fill against a **dummy** account and watch it type. (The Phase 3 hotkey will

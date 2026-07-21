@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-vault-bridge"
+version = "0.5.0.dev0"
+description = "Phone-approved credential handoff for Bitwarden Agent Access on Windows."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Zicocoder" }]
+keywords = ["bitwarden", "agent-access", "telegram", "credentials", "windows"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Security",
+]
+dependencies = [
+    "python-telegram-bot>=21.0",
+    "pynput>=1.7.7",
+    "pygetwindow>=0.0.9",
+    "pystray>=0.19.5",
+    "pillow>=10.0.0",
+    "keyboard>=0.13.5",
+    "pyyaml>=6.0.1",
+    "keyring>=25.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.urls]
+Homepage = "https://github.com/Zicocoder/claude-vault-bridge"
+Repository = "https://github.com/Zicocoder/claude-vault-bridge"
+Issues = "https://github.com/Zicocoder/claude-vault-bridge/issues"
+
+[project.scripts]
+claude-vault-bridge = "claude_vault_bridge.main:main"
+
+[tool.setuptools]
+packages = ["claude_vault_bridge"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -8,7 +8,7 @@ login page and the full cycle fires.
 
 Implemented in:
 
-- [`src/main.py`](../src/main.py)
+- [`claude_vault_bridge/main.py`](../claude_vault_bridge/main.py)
   - `handle_request(domain)` — the orchestration core: approval → fetch → fill →
     audit. Returns the decision (`approved` / `denied` / `timeout` / `error`).
     A fetch/focus/fill failure downgrades the outcome to `error`; an audit-write
@@ -18,7 +18,7 @@ Implemented in:
   - `trigger_from_active_window()` — what the hotkey calls.
   - `main()` — global hotkey (`keyboard`) + system-tray icon (`pystray`) with a
     **Quit** item.
-- [`src/audit.py`](../src/audit.py) — `log(domain, decision, latency_ms, source)`
+- [`claude_vault_bridge/audit.py`](../claude_vault_bridge/audit.py) — `log(domain, decision, latency_ms, source)`
   appends one JSON line per event to `audit/events.jsonl` (gitignored). Records
   **only** timestamp, domain, decision, latency, and source — never the
   credential. `read_events()` reads them back.
@@ -26,7 +26,7 @@ Implemented in:
 ## Run it
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.main
+.\.venv\Scripts\python.exe -m claude_vault_bridge.main   # or: claude-vault-bridge
 ```
 
 A tray icon appears. Focus a login page in Chrome and press **Ctrl+Alt+L** (or

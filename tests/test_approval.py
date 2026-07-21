@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from src.approval import request_approval_detailed
+from claude_vault_bridge.approval import request_approval_detailed
 
 CHAT_ID = 4242
 

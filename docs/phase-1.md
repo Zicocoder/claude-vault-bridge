@@ -4,7 +4,7 @@ Goal: tap **Approve** / **Deny** on your phone to gate a credential request, wit
 timeout that auto-denies. This is the human-in-the-loop gate; no vault access or
 form filling happens yet (that's Phase 2).
 
-Implemented in [`src/approval.py`](../src/approval.py):
+Implemented in [`claude_vault_bridge/approval.py`](../claude_vault_bridge/approval.py):
 
 - `request_approval(domain, timeout_seconds=60) -> bool` — sends the prompt,
   blocks until you tap a button or the timeout elapses, returns `True` only on an
@@ -41,7 +41,7 @@ Implemented in [`src/approval.py`](../src/approval.py):
 ## Try it
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.approval example.com
+.\.venv\Scripts\python.exe -m claude_vault_bridge.approval example.com
 ```
 
 You should get a phone push with **✅ Approve / ⛔ Deny** buttons. Tapping either

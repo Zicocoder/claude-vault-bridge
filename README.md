@@ -1,11 +1,15 @@
 # Claude Vault Bridge
 
+[![CI](https://github.com/Zicocoder/claude-vault-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Zicocoder/claude-vault-bridge/actions/workflows/ci.yml)
+
 A Windows companion tool for [Bitwarden Agent Access](https://github.com/bitwarden/agent-access) that adds two missing pieces for using Claude in Chrome with a password vault:
 
 - **Phone-tap approval** — approve credential requests from your phone (Telegram) instead of being at the PC
 - **Browser login filling** — fetches the credential from `aac connect` and types it into the focused Chrome login form
 
-> Status: **early / pre-alpha**. Nothing to install yet. This repo currently holds the design, structure, and Phase 0 verification steps.
+> Status: **alpha**. All phases (0–4) are implemented and unit-tested; the package
+> installs and runs. Not yet verified end-to-end against a live `aac` — do the
+> [Phase 0](docs/phase-0.md) check on your machine before real use.
 
 ---
 
@@ -66,17 +70,37 @@ Not a security product. Convenience tool with reasonable hygiene. Read the code 
 - **Phase 2** ✅ — `aac connect` wrapper + focus check + keystroke fill (see [`docs/phase-2.md`](docs/phase-2.md))
 - **Phase 3** ✅ — global hotkey, tray app, audit log, config (see [`docs/phase-3.md`](docs/phase-3.md))
 - **Phase 4** ✅ — whitelist tier, TOTP fill, multiple-match handling (see [`docs/phase-4.md`](docs/phase-4.md))
-- **Phase 5** — polish, demo GIF, release, distribution
+- **Phase 5** ✅ — packaging (`pyproject.toml` + `claude-vault-bridge` command), CI, docs (see [`docs/phase-5.md`](docs/phase-5.md)). Remaining before a tagged release: demo GIF + pinning the live `aac`/`bw` versions ([`docs/versions.md`](docs/versions.md)) — both need a live Phase 0 run.
 
 ---
 
-## Requirements (planned)
+## Requirements
 
 - Windows 10/11 x64
 - Python 3.12+
 - [Bitwarden CLI (`bw`)](https://bitwarden.com/help/cli/)
 - [Agent Access (`aac`)](https://github.com/bitwarden/agent-access/releases)
 - Telegram account (for the approval bot)
+
+---
+
+## Install & run
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".[dev]"   # editable install + test deps
+.\.venv\Scripts\python.exe -m pytest -q                 # 60 tests, no network/secrets needed
+```
+
+One-time setup (bot token, chat id, `config.yaml`) is in [`docs/phase-1.md`](docs/phase-1.md).
+Then start the tray app:
+
+```powershell
+claude-vault-bridge            # console entry point (installed above)
+# or: .\.venv\Scripts\python.exe -m claude_vault_bridge.main
+```
+
+Focus a Chrome login page and press **Ctrl+Alt+L** (login) or **Ctrl+Alt+T** (TOTP).
 
 ---
 
